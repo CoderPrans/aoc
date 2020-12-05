@@ -2,9 +2,6 @@
   (:require [clojure.string :as str])
   (:require [clojure.java.io :as io]))
 
-(def rows 128)
-(def cols 8)
-
 (def demo-input "BFFFBBFRRR
 FFFBBBFRRR
 BBFFBBFRLL")
