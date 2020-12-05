@@ -12,25 +12,24 @@ BBFFBBFRLL")
 (defn floor-int [n]
   (int (Math/floor n)))
 
-(defn dig [c s]
-  (let [[n1 n2] s]
-    (if (or (= c \L) (= c \F))
+(defn dig [char seq]
+  (let [[n1 n2] seq]
+    (if (or (= char \L) (= char \F))
       [n1 (+ n1 (floor-int (/ (- n2 n1) 2)))]
       [(- n2 (floor-int (/ (- n2 n1) 2))) n2])))
 
-(defn get-n [s r]
+(defn get-n [str init]
   (loop [c 0
-         r r]
-    (if (< c (count s))
-      (recur (inc c) (dig (nth s c) r))
-      (first r))))
+         i init]
+    (if (< c (count str))
+      (recur (inc c) (dig (nth str c) i))
+      (first i))))
 
-(defn get-seat [s]
-  (let [rs (first (str/split s #"[R|L]"))
-        cs (last (str/split s #"[F|B]"))
-        tr [0 127]
-        tc [0 7]]
-    (+ (* 8 (get-n rs tr)) (get-n cs tc))))
+(defn get-seat [str]
+  (let [[rs cs] (partition-all 7 str)
+        ri [0 127]
+        ci [0 7]]
+    (+ (* 8 (get-n rs ri)) (get-n cs ci))))
 
 (get-seat "BBFFBBFRLL")
 
