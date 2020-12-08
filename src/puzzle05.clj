@@ -6,29 +6,38 @@
 FFFBBBFRRR
 BBFFBBFRLL")
 
-(defn floor-int [n]
-  (int (Math/floor n)))
+(defn dig [char [n1 n2]]
+    (if (#{\L \F} char)
+      [n1 (+ n1 (quot (- n2 n1) 2))]
+      [(- n2 (quot (- n2 n1) 2)) n2]))
 
-(defn dig [char seq]
-  (let [[n1 n2] seq]
-    (if (or (= char \L) (= char \F))
-      [n1 (+ n1 (floor-int (/ (- n2 n1) 2)))]
-      [(- n2 (floor-int (/ (- n2 n1) 2))) n2])))
+(dig \B [30 31])
+;; => [31 31]
 
 (defn get-n [str init]
-  (loop [c 0
+  (reduce #(dig %2 %1) init str)
+  #_(loop [c 0
          i init]
     (if (< c (count str))
       (recur (inc c) (dig (nth str c) i))
       (first i))))
 
+(get-n "FFFBBBF" [0 127])
+;; => [14 14]
+
+(get-n "RRR" [0 7])
+;; => [7 7]
+
 (defn get-seat [str]
   (let [[rs cs] (partition-all 7 str)
         ri [0 127]
         ci [0 7]]
-    (+ (* 8 (get-n rs ri)) (get-n cs ci))))
+    (+ (* 8
+          (first (get-n rs ri)))
+       (first (get-n cs ci)))))
 
 (get-seat "BBFFBBFRLL")
+;; => 820
 
 (apply max (map get-seat (str/split demo-input #"\n")))
 ;; => 820
