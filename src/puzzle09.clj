@@ -45,9 +45,19 @@
 
 ; Part 2
 
-(let [n (weakness parsed-demo-input 5)
-      look-in (take
-               (.indexOf parsed-demo-input n)
-               parsed-demo-input)]
-  look-in)
+(defn get-res [weakness window coll]
+  (first (filter #(= (reduce + %) weakness) (partition window 1 coll))))
 
+(defn part2 [weakness input]
+  (loop [w 2]
+    (let [res (get-res weakness w input)]
+      (if (empty? res)
+        (recur (inc w))
+        (+ (apply min res)
+           (apply max res))))))
+
+(part2 (weakness parsed-demo-input 5) parsed-demo-input)
+;; => 62
+
+(part2 (weakness input 25) input)
+;; => 13414198
