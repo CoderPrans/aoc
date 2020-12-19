@@ -15,7 +15,6 @@ L.LLLLL.LL")
 
 (defn parse-input [i]
   (map #(apply list (str/split % #"")) (str/split i #"\n")))
-(apply list (str/split (first (str/split demo-input #"\n")) #""))
 
 (defn seat-status [r c input] 
   (nth (nth input r) c))
