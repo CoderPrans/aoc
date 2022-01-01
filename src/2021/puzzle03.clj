@@ -46,12 +46,6 @@
 
 ;;; PART 2
 
-(let [freqs (get-freqs demo-input 0)
-      small-bit (if (< (freqs \0) (freqs \1)) \0 \1)]
-  #_(filter (fn [s] (= small-bit (nth s 0))) demo-input)
-  small-bit
-  (filter (fn [s] (= small-bit (nth s 0))) demo-input))
-
 (defn get-oxy-bit [freqs]
   (cond
     (< (freqs \0) (freqs \1)) \1
